@@ -13,12 +13,19 @@
     <div id="app">
         <h1>Cade Buffet</h1>
 
+
+        <div class="search">
+            <label for="search">Buscar buffet: </label>
+            <input type="text" id="search" v-model="searchText" placeholder="Entre com um nome">
+        </div>
+
+
         <main>
-            <div v-if="listBuffets.length <= 0">
+            <div v-if="listResult.length <= 0">
                 <h3>Nenhum buffet encontrado.</h3>
             </div>
             <ul>
-                <li v-for="item, index in listBuffets">
+                <li v-for="item, index in listResult">
                     <div class="card">
 
                         <p>{{ item.commercial_name }}</p>
@@ -30,6 +37,8 @@
             </ul>
         </main>
     </div>
+
+
 
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <script src="main.js"></script>

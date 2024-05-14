@@ -1,10 +1,21 @@
 const app = Vue.createApp({
   data() {
     return {
+      searchText: '',
       listBuffets: []
     }
   },
-  computed: {},
+  computed: {
+    listResult: function () {
+      if (this.searchText) {
+        return this.listBuffets.filter(buffet => {
+          return buffet.commercial_name.toLowerCase().includes(this.searchText.toLowerCase())
+        });
+      } else {
+        return this.listBuffets;
+      }
+    }
+  },
   async mounted() {
     await this.getBuffets();
   },
