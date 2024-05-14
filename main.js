@@ -2,7 +2,8 @@ const app = Vue.createApp({
   data() {
     return {
       searchText: '',
-      listBuffets: []
+      listBuffets: [],
+      selectedBuffet: null
     }
   },
   computed: {
@@ -29,12 +30,28 @@ const app = Vue.createApp({
       if (data) {
         data.forEach(item => {
           const buffet = new Object();
+          buffet.id = item.id;
           buffet.commercial_name = item.commercial_name;
           this.listBuffets.push(buffet);
         });
       } else {
         console.error("Nenhum resultado encontrado no data");
       }
+    },
+    async loadDetails(id) {
+      let buffetResponse = await fetch(`http://localhost:3000/api/v1/buffet/${id}`);
+      let buffetData = await buffetResponse.json();
+
+      let eventsResponse = await fetch(`http://localhost:3000/api/v1/buffet/${id}/event`);
+      let eventsData = await eventsResponse.json();
+
+      console.log(buffetData)
+      console.log(eventsData)
+
+      this.selectedBuffet = {
+        ...buffetData,
+        events: eventsData
+      };
     }
   }
 

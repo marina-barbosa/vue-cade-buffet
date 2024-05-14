@@ -13,32 +13,52 @@
     <div id="app">
         <h1>Cade Buffet</h1>
 
-
         <div class="search">
             <label for="search">Buscar buffet: </label>
             <input type="text" id="search" v-model="searchText" placeholder="Entre com um nome">
         </div>
 
-
         <main>
-            <div v-if="listResult.length <= 0">
-                <h3>Nenhum buffet encontrado.</h3>
+            <div v-if="selectedBuffet">
+                <h3>Detalhes do Buffet</h3>
+                <p>Nome Comercial: {{ selectedBuffet.commercial_name }}</p>
+                <p>Phone: {{ selectedBuffet.phone }}</p>
+                <p>Email: {{ selectedBuffet.email }}</p>
+                <p>Descrição: {{ selectedBuffet.description }}</p>
+                <button v-on:click="selectedBuffet = null">Voltar</button>
+
+                <h3>Eventos do Buffet</h3>
+                <ul>
+                    <li v-for="event in selectedBuffet.events">
+                        <h4>{{ event.name }}</h4>
+                        <p v-if="event.description">Descrição: {{ event.description }}</p>
+                        <p>Pessoas mínimas: {{ event.min_people }}</p>
+                        <p>Pessoas máximas: {{ event.max_people }}</p>
+                        <p>Duração padrão do evento (minutos): {{ event.default_event_duration_minutes }}</p>
+                        <p>Bebidas alcoólicas: {{ event.alcoholic_drinks ? 'Sim' : 'Não' }}</p>
+                        <p>Decoração: {{ event.decoration ? 'Sim' : 'Não' }}</p>
+                        <p>Serviço de estacionamento: {{ event.parking_service ? 'Sim' : 'Não' }}</p>
+                        <p>Manobrista: {{ event.valet ? 'Sim' : 'Não' }}</p>
+                        <p>Local exclusivo do buffet: {{ event.exclusive_buffet_location ? 'Sim' : 'Não' }}</p>
+                        <button>Verificar disponibilidade</button>
+                    </li>
+                </ul>
             </div>
-            <ul>
-                <li v-for="item, index in listResult">
-                    <div class="card">
-
-                        <p>{{ item.commercial_name }}</p>
-                        <button>Ver Eventos</button>
-                        <button>Ver Mais</button>
-
-                    </div>
-                </li>
-            </ul>
+            <div v-else>
+                <div v-if="listResult.length <= 0">
+                    <h3>Nenhum buffet encontrado.</h3>
+                </div>
+                <ul>
+                    <li v-for="item in listResult">
+                        <div class="card">
+                            <p>{{ item.commercial_name }}</p>
+                            <button v-on:click="loadDetails(item.id)">Ver Detalhes</button>
+                        </div>
+                    </li>
+                </ul>
+            </div>
         </main>
     </div>
-
-
 
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <script src="main.js"></script>
