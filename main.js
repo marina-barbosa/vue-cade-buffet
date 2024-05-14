@@ -1,6 +1,7 @@
 const app = Vue.createApp({
   data() {
     return {
+      url: 'http://localhost:3333',
       searchText: '',
       listBuffets: [],
       selectedBuffet: null,
@@ -23,8 +24,8 @@ const app = Vue.createApp({
     await this.getBuffets();
   },
   methods: {
-    getBuffets: async function () {
-      let response = await fetch('http://localhost:3000/api/v1/buffet');
+    getBuffets: async function () {      
+      let response = await fetch(`${this.url}/api/v1/buffet`);
       let data = await response.json();
 
       console.log(data)
@@ -41,10 +42,10 @@ const app = Vue.createApp({
       }
     },
     async loadDetails(id) {
-      let buffetResponse = await fetch(`http://localhost:3000/api/v1/buffet/${id}`);
+      let buffetResponse = await fetch(`${this.url}/api/v1/buffet/${id}`);
       let buffetData = await buffetResponse.json();
 
-      let eventsResponse = await fetch(`http://localhost:3000/api/v1/buffet/${id}/event`);
+      let eventsResponse = await fetch(`${this.url}/api/v1/buffet/${id}/event`);
       let eventsData = await eventsResponse.json();
 
       console.log(buffetData)
@@ -60,7 +61,7 @@ const app = Vue.createApp({
       console.log(date)
       console.log(guests)
       try {
-        const response = await fetch(`http://localhost:3000/api/v1/check_availability`, {
+        const response = await fetch(`${this.url}/api/v1/check_availability`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'

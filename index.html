@@ -11,7 +11,9 @@
 <body>
 
     <div id="app">
-        <h1>Cade Buffet</h1>
+        <header>
+            <h1>Cade Buffet</h1>
+        </header>
 
         <div class="search">
             <label for="search">Buscar buffet: </label>
@@ -19,13 +21,16 @@
         </div>
 
         <main>
-            <div v-if="selectedBuffet">
-                <h3>Detalhes do Buffet</h3>
-                <p>Nome Comercial: {{ selectedBuffet.commercial_name }}</p>
-                <p>Phone: {{ selectedBuffet.phone }}</p>
-                <p>Email: {{ selectedBuffet.email }}</p>
-                <p>Descrição: {{ selectedBuffet.description }}</p>
-                <button v-on:click="selectedBuffet = null">Voltar</button>
+            <div class="show" v-if="selectedBuffet">
+                <div>
+                    <h3>Detalhes do Buffet</h3>
+                    <p>Nome Comercial: {{ selectedBuffet.commercial_name }}</p>
+                    <p>Phone: {{ selectedBuffet.phone }}</p>
+                    <p>Email: {{ selectedBuffet.email }}</p>
+                    <p>Descrição: {{ selectedBuffet.description }}</p>
+                    <button v-on:click="selectedBuffet = null">Voltar</button>
+                    <hr>
+                </div>
 
                 <h3>Eventos do Buffet</h3>
                 <ul>
@@ -40,22 +45,24 @@
                         <p>Serviço de estacionamento: {{ event.parking_service ? 'Sim' : 'Não' }}</p>
                         <p>Manobrista: {{ event.valet ? 'Sim' : 'Não' }}</p>
                         <p>Local exclusivo do buffet: {{ event.exclusive_buffet_location ? 'Sim' : 'Não' }}</p>
-                        <form>
+                        <form class="availability-form">
+                            <h4>Verificar Disponibilidade</h4>
                             <label for="date">Data do Evento:</label>
                             <input type="date" id="date" v-model="date">
                             <label for="guests">Número de Convidados:</label>
                             <input type="number" id="guests" v-model.number="guests">
-                            <button v-on:click="checkAvailability(event.id,date,guests)" type="button">Verificar
-                                Disponibilidade</button>
+                            <button v-on:click="checkAvailability(event.id,date,guests)"
+                                type="button">Verificar</button>
                         </form>
                     </li>
                 </ul>
+                <button v-on:click="selectedBuffet = null">Voltar</button>
             </div>
-            <div v-else>
+            <div class="index" v-else>
                 <div v-if="listResult.length <= 0">
                     <h3>Nenhum buffet encontrado.</h3>
                 </div>
-                <ul>
+                <ul class="index">
                     <li v-for="item in listResult">
                         <div class="card">
                             <p>{{ item.commercial_name }}</p>
