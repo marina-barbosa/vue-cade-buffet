@@ -1,20 +1,35 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Cade Buffet</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
     <div id="app">
+        <h1>Cade Buffet</h1>
 
+        <main>
+            <div v-if="listBuffets.length <= 0">
+                <h3>Nenhum buffet encontrado.</h3>
+            </div>
+            <ul>
+                <li v-for="item, index in listBuffets">
+                    <div class="card">
+
+                        <p>{{ item.commercial_name }}</p>
+                        <button>Ver Eventos</button>
+                        <button>Ver Mais</button>
+
+                    </div>
+                </li>
+            </ul>
+        </main>
     </div>
-
-
 
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <script src="main.js"></script>
