@@ -3,7 +3,9 @@ const app = Vue.createApp({
     return {
       searchText: '',
       listBuffets: [],
-      selectedBuffet: null
+      selectedBuffet: null,
+      guests: null,
+      date: null,
     }
   },
   computed: {
@@ -52,6 +54,37 @@ const app = Vue.createApp({
         ...buffetData,
         events: eventsData
       };
+    },
+    async checkAvailability(eventId, date, guests) {
+      console.log(eventId)
+      console.log(date)
+      console.log(guests)
+      try {
+        const response = await fetch(`http://localhost:3000/api/v1/check_availability`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            event_id: eventId,
+            date: date,
+            guest_count: guests
+          })
+        });
+        let res = await response.json();
+
+        if (!response.ok) {
+          console.log('E01: Evento Indisponivel.')
+          alert('E01: Evento Indisponivel.')
+        } else {
+          console.log(`${res.message}, R$${res.final_value}`);
+          alert(`${res.message}, R$${res.final_value}`);
+        }
+
+      } catch (error) {
+        console.log(`E02: Evento Indisponivel.`);
+        alert(`E02: Evento Indisponivel.`);
+      }
     }
   }
 
